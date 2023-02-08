@@ -1,6 +1,6 @@
-mov ah,01h
+mov ah,01h  ; 01h =input
 int 21h
-mov ah,2
+mov ah,2   ;2/02h=print
 mov dl,al
 int 21h
 
