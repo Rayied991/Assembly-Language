@@ -9,7 +9,7 @@ msg1 db 0ah,0dh,"Password Matched $"
 msg3 db 0dh,0ah, "Password not Matched$" 
     
     
-pswrd db "riya$"    
+pswrd db "Rayied$"    
 inputmsg db ?
  
 .code                 
