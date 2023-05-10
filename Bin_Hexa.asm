@@ -1,0 +1,61 @@
+.MODEL SMALL       ;BIN TO HEX
+.STACK 100H
+.DATA    
+MSG1 DB 'ENTER BIN:  $'
+MSG2 DB 0AH,0DH,'HEX:  $'
+.CODE
+MAIN PROC
+   MOV AX,@DATA
+   MOV DS,AX
+   XOR BX,BX
+
+   MOV AH,9
+   LEA DX,MSG1
+   INT 21H
+   MOV AH,1
+   INT 21H
+
+   WHILE:
+   CMP AL,0DH
+   JE END
+
+   AND AL,01H
+   SHL BX,1
+   OR BL,AL
+   INT 21H
+   JMP WHILE
+   END:
+   MOV AH,2
+   MOV DL,BL
+
+   MOV AH,9
+   LEA DX,MSG2
+   INT 21H    
+
+   MOV CX,4
+   MOV AH,2
+
+   FOR2:
+   MOV DL,BH
+   SHR DL,4    
+   SHL BX,4
+
+   CMP DL,10
+   JGE LETTER2
+
+   ADD DL,48
+   INT 21H
+   JMP EXIT
+
+   LETTER2:
+   ADD DL,55
+   INT 21H
+
+   EXIT:  
+   LOOP FOR2
+
+   MOV AH,4CH
+   INT 21H
+
+   MAIN ENDP
+END MAIN
