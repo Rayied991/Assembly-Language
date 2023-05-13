@@ -1,0 +1,289 @@
+1.
+.model small
+
+.stack 100h
+
+.data 
+
+a db ?
+msg0 db "Welcome user!$"
+msg1 db "Enter 1st number:$" 
+msg2 db "Enter 2nd number:$" 
+msg3 db "Enter 3rd number:$" 
+msg4 db "Output:$"
+
+
+
+.code
+main proc
+
+    mov ax,@data
+    mov ds,ax     
+    mov ah,9
+    lea dx,msg0
+    int 21h
+    
+    call newline
+    
+    mov ah,9
+    lea dx,msg1
+    int 21h
+    
+    mov ah,1
+    int 21h 
+    mov bl,al
+    
+    call newline
+    mov ah,9
+    lea dx,msg2
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bh,al 
+    
+    call newline 
+    
+    mov ah,9
+    lea dx,msg3
+    int 21h
+    
+    mov ah,1
+    int 21h 
+    mov ch,al
+    int 21h
+ 
+    call newline 
+    
+    mov ah,9
+    lea dx,msg4
+    int 21h
+    
+    call newline
+    
+    mov ah,2
+    mov dl,bl
+    int 21h 
+    
+    call newline
+    
+    mov ah,2
+    mov dl,bh 
+    int 21h
+    
+    call newline 
+    
+    mov ah,2
+    mov dl,ch
+    int 21h
+    
+    
+     
+    mov ah,4ch   
+    int 21h
+    
+    main endp
+proc newline :
+    mov ah,2  
+    mov dl,0Ah
+    int 21h
+    mov dl,0dh
+    int 21h
+    newline endp
+ret
+
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+2.
+.MODEL SMALL
+.STACK 100H
+.DATA         
+M1 DB "Enter a Hex digit: $"
+M2 DB "Decimal digit: $" 
+M3 DB "NOT A VALID INPUT$"
+M4 DB "Do you want to do it again? $"
+.CODE
+MAIN PROC
+
+START:
+    MOV AX,@DATA
+    MOV DS,AX
+    LEA DX,M1
+    MOV AH,9
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV BL,AL
+    
+    CALL NEWLINE
+    
+    LEA DX,M2
+    MOV AH,9
+    INT 21H
+    
+    CMP BL,'0'
+    JNGE LETTER
+    CMP BL,'9'
+    JNLE LETTER 
+    
+    MOV DL,BL
+    MOV AH,2
+    INT 21H
+    CALL NEWLINE 
+    JMP AGAIN
+
+LETTER:
+    CMP BL,'A'
+    JNGE NOT_VALID
+    CMP BL,'F'
+    JNLE NOT_VALID
+    
+    MOV DL,'1'
+    MOV AH,2
+    INT 21H
+    
+    SUB BL,17
+    MOV DL,BL
+    MOV AH,2
+    INT 21H     
+    CALL NEWLINE
+    JMP AGAIN 
+    
+NOT_VALID:
+
+    LEA DX,M3
+    MOV AH,9
+    INT 21H
+     
+    CALL NEWLINE 
+    
+AGAIN:
+    LEA DX,M4
+    MOV AH,9
+    INT 21H
+        
+    MOV AH,1
+    INT 21H
+    MOV BH,AL
+    CALL NEWLINE
+    
+    CMP BH,'Y'
+    JE START
+    CMP BH,'y'
+    JE START
+        
+EXIT:
+    MOV AH,4CH
+    INT 21H
+    
+MAIN ENDP 
+
+NEWLINE PROC
+    
+    MOV DL,0AH   
+    MOV AH,2
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    RET
+NEWLINE ENDP
+
+END MAIN
+
+----------------------------------------------------
+3.
+.model small
+.stack 100h
+.data
+
+msg1 db "Welcome To My Calculator!!$"
+msg2 db "Thank You for using my Calculator$"
+input1 db "Please User Enter Digit 1: $"
+input2 db "Please User Enter Digit 2:$"
+input3 db "Third Input is: $"
+diff db "The subtraction result is: $"
+
+.code
+main proc
+   mov ax, @data
+   mov ds, ax
+   
+   mov ah, 09h
+   lea dx, msg1
+   int 21h
+   
+      
+   mov ah, 2
+   mov dl, 0ah
+   int 21h
+   mov dl, 0dh
+   int 21h
+   
+   
+   mov ah, 09h
+   lea dx, input1
+   int 21h
+   
+   mov ah, 1
+   int 21h
+   sub al, '0'
+   mov bl, al
+   
+   mov ah, 2
+   mov dl, 0ah
+   int 21h
+   mov dl, 0dh
+   int 21h
+   
+   mov ah, 09h
+   lea dx, input2
+   int 21h
+   
+   mov ah, 1
+   int 21h
+   sub al, '0'
+   mov bh, al
+   
+   mov ah, 2
+   mov dl, 0ah
+   int 21h
+   mov dl, 0dh
+   int 21h
+   
+
+  
+
+   mov ah, 2
+   mov dl, 0ah
+   int 21h
+   mov dl, 0dh
+   int 21h
+
+   mov ah, 09h
+   lea dx, diff
+   int 21h
+   
+   mov dl, bl
+   sub dl, bh
+   add dl, '0'
+   
+   mov ah, 2
+   int 21h
+   
+   mov ah, 2
+   mov dl, 0ah
+   int 21h
+   mov dl, 0dh
+   int 21h
+   
+   mov ah, 09h
+   lea dx, msg2
+   int 21h
+   
+   mov ah, 4ch
+   int 21h
+   
+main endp
+end main
